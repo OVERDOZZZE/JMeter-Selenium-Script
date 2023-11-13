@@ -65,14 +65,14 @@ def publish_story(day):
 
     time.sleep(2)
     controller = Controller()
-    controller.type(f"C:\\Users\\User\\PycharmProjects\\selenium_images\\image{day}.jpg") 
+    controller.type(f"C:\\Users\\User\\PycharmProjects\\Selenim-Jmet\\Selenium-JMeter\\screens\\image{day}.png") 
     controller.press(Key.enter)
     controller.release(Key.enter)
     
     final_button = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, '_aa33')))
     final_button.click()
 
-    wait.until(EC.url_matches('https://leetcode.com'))
+    # wait.until(EC.url_matches('https://leetcode.com'))
 
 
 if __name__ == '__main__':

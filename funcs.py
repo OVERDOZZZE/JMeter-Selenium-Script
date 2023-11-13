@@ -61,5 +61,12 @@ def get_leetcode_solution(day):
     return code
 
 
+def take_screenshot(link, day):
+    driver.get(link)
+    driver.save_screenshot(
+        f'C:\\Users\\User\\PycharmProjects\\Selenim-Jmet\\Selenium-JMeter\\screens\\image{day}.png'
+    )
+
+
 if __name__ == '__main__':
     pass
