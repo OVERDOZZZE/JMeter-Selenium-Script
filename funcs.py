@@ -10,7 +10,8 @@ options = Options()
 options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 driver = webdriver.Chrome(options=options)
 browser = options.capabilities["browserName"]
-wait = WebDriverWait(driver, 100)
+wait = WebDriverWait(driver, 10)
+
 
 def write_down(code, filename):
     with open(filename, "w") as file:
@@ -42,31 +43,39 @@ def leetcode_login(login, password):
 
 def get_leetcode_solution(day):
     driver.get('https://leetcode.com/problemset/all/?difficulty=EASY&page=1')
-    time.sleep(2)
+    driver.maximize_window()
+    time.sleep(4)
 
-    problem_list = driver.find_elements(By.XPATH, '//div[@role="rowgroup"]//a[contains(@class, "hover:text-blue-s") and contains(@href, "/problems/") and contains(@class, "dark:hover:text-dark-blue-s")]')
-    # problem_list = driver.find_elements(By.XPATH, "//div[@role='rowgroup']//div[@role='cell']//a")
+    problem_list = wait.until(EC.visibility_of_all_elements_located((
+        By.XPATH, '//div[@role="rowgroup"]//a[contains(@class, "hover:text-blue-s") and contains(@href, "/problems/") and contains(@class, "dark:hover:text-dark-blue-s")]'))
+    )
+    print(problem_list)
+    print(problem_list[day])
+    for i in problem_list:
+        print(i.text)
+    # print(problem_list[day].text)
     problem_list[day].click()
-    time.sleep(5)
 
-    button = driver.find_element(By.XPATH, f"//span[contains(text(), '{'Solutions'}')]/..")
+    button = wait.until(EC.visibility_of_element_located((
+        By.XPATH, f"//span[contains(text(), '{'Solutions'}')]/.."))
+    )
     button.click()
-    time.sleep(5)
 
-    solutions = driver.find_elements(By.XPATH, '//div[@class="group flex w-full cursor-pointer flex-col gap-1.5 px-4 pt-3"]')
+    solutions = wait.until(EC.visibility_of_all_elements_located((
+        By.XPATH, '//div[@class="group flex w-full cursor-pointer flex-col gap-1.5 px-4 pt-3"]'))
+    )
     solutions[1].click()
-    time.sleep(5)
-    code = driver.find_elements(By.CSS_SELECTOR, 'code.language-cpp')
 
+    code = wait.until(EC.visibility_of_all_elements_located((
+        By.XPATH, "//*[starts-with(@class, 'language-')]"))
+    )
     return code
 
 
 def take_screenshot(link, day):
     driver.get(link)
+    driver.maximize_window()
     driver.save_screenshot(
         f'C:\\Users\\User\\PycharmProjects\\Selenim-Jmet\\Selenium-JMeter\\screens\\image{day}.png'
     )
-
-
-if __name__ == '__main__':
-    pass
+    driver.quit()

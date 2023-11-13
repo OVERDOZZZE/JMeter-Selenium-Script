@@ -63,16 +63,28 @@ def publish_story(day):
     )
     publish_story_button.click()
 
+    # publish_element_button = WebDriverWait(driver, 10).until(
+    #     EC.visibility_of_element_located((By.CSS_SELECTOR, 'form:nth-of-type(2) input._ac69'))
+    # )
+    # print('pass 2')
+    # # publish_element_button.click()
+    # print('pass 3')
+    #
+    # publish_story_button = WebDriverWait(driver, 10).until(
+    #     EC.visibility_of_element_located((By.CLASS_NAME, "//span[contains(text(),'История')]"))
+    # )
+    # publish_story_button.click()
+
     time.sleep(2)
     controller = Controller()
     controller.type(f"C:\\Users\\User\\PycharmProjects\\Selenim-Jmet\\Selenium-JMeter\\screens\\image{day}.png") 
     controller.press(Key.enter)
     controller.release(Key.enter)
-    
+
     final_button = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, '_aa33')))
     final_button.click()
 
-    # wait.until(EC.url_matches('https://leetcode.com'))
+    wait.until(EC.url_matches('https://www.instagram.com/'))
 
 
 if __name__ == '__main__':
