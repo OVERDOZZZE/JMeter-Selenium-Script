@@ -1,15 +1,16 @@
 import git
 import time
-import pyautogui
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-driver = webdriver.Chrome()
-wait = WebDriverWait(driver, 100)
 
+options = Options()
+options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+driver = webdriver.Chrome(options=options)
+browser = options.capabilities["browserName"]
+wait = WebDriverWait(driver, 100)
 
 def write_down(code, filename):
     with open(filename, "w") as file:
@@ -60,49 +61,5 @@ def get_leetcode_solution(day):
     return code
 
 
-def publish_story(login, password):
-    driver.get('https://www.instagram.com/')
-    time.sleep(2)
-    login_field = driver.find_element(By.NAME, 'username')
-    login_field.send_keys(login)
-
-    password_field = driver.find_element(By.NAME, 'password')
-    password_field.send_keys(password)
-
-    button = driver.find_element(By.CLASS_NAME, '_acan._acap._acas._aj1-._ap30')
-    button.click()
-
-    # wait.until(EC.url_matches('https:/instagram.com/134'))
-
-
-def fun():
-    # driver.get('https://leetcode.com')
-    driver.maximize_window()    
-    time.sleep(10)
-    b1 = driver.find_element(By.CLASS_NAME, "x1i10hfl")
-    b1.click()
-    time.sleep(5)
-
-    not_now_button = driver.find_element(By.CLASS_NAME, "_a9_1")
-    not_now_button.click()
-
-    time.sleep(5)
-
-    pyautogui.keyDown('ctrl')
-    pyautogui.keyDown('shift')
-    pyautogui.press('i')
-
-    time.sleep(5)
-    pyautogui.keyDown('ctrl')
-    pyautogui.keyDown('shift')
-    pyautogui.press('m')
-
-    time.sleep(2)
-    driver.refresh()
-    time.sleep(5)   
-
-    wait.until(EC.url_matches('https:/instagram.com/134'))
-
-
 if __name__ == '__main__':
-    fun()
+    pass
