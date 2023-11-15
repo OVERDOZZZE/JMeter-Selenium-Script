@@ -2,28 +2,17 @@ from funcs import write_down, push_to_github, get_leetcode_solution, take_screen
 import os
 from git import Repo
 from datetime import datetime
-solution_file_path = './code/solution.cpp'
-solution_folder_path = 'code'
-
-solution_file_path_absolute = os.path.abspath(solution_file_path)
-solution_folder_path_absolute = os.path.abspath(solution_folder_path)
 
 
-# LOCAL_REPO = r"C:\Users\User\PycharmProjects\Selenim-Jmet\Selenium-JMeter\hub"
-# REMOTE_REPO = "https://github.com/OVERDOZZZE/JMeter-31day/blob/main/hub.cpp"
-day = int(datetime.today().day) - 17
-# day = 9
-
-if __name__ == '__main__':
+def run(day):
     try:
         if not os.path.exists(solution_file_path):
             os.makedirs('./code ', exist_ok=True)
-
             with open(solution_file_path, 'w'):
                 pass
         try:
             repo = Repo(solution_folder_path_absolute)
-        except Exception as e:
+        except:
             repo = Repo.init(solution_folder_path_absolute)
             remote_name = 'origin'
             remote_exists = any(remote.name == remote_name for remote in repo.remotes)
@@ -39,7 +28,8 @@ if __name__ == '__main__':
         if day:
             code = get_leetcode_solution(day=day)
             write_down(
-                code[0].text, solution_file_path_absolute
+                code=code[0].text,
+                filename=solution_file_path_absolute
             )
             push_to_github(
                 repository_path=LOCAL_REPO,
@@ -49,13 +39,36 @@ if __name__ == '__main__':
 
             print('New code has been successfully uploaded to github!')
 
-            take_screenshot(link=REMOTE_REPO, day=day)
+            take_screenshot(
+                link=REMOTE_REPO,
+                day=day,
+                screens_path=screens_file_path_absolute
+            )
             print('New screenshot has been taken!')
+
             from instagram import login_instagram, publish_story
-            login_instagram('a3.djedai', 'nurdan2005.')
-            publish_story(day=day)
+            login_instagram(
+                login='a3.djedai',
+                password='nurdan2005.'
+            )
+            publish_story(
+                day=day,
+                screens_path=screens_file_path_absolute
+            )
             print("Story has been published! Today's done!")
 
     except Exception as e:
         print(e)
 
+
+if __name__ == '__main__':
+    DAY = int(datetime.today().day) - 17
+    solution_file_path = './code/solution.cpp'
+    solution_folder_path = 'code'
+
+    solution_file_path_absolute = os.path.abspath(solution_file_path)
+    solution_folder_path_absolute = os.path.abspath(solution_folder_path)
+
+    screens_file_path_absolute = os.path.abspath(f'screens')
+
+    run(day=DAY)
