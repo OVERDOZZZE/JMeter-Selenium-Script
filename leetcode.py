@@ -1,12 +1,13 @@
 from funcs import write_down, push_to_github, get_leetcode_solution, take_screenshot
 import os
 from git import Repo
+from decouple import config
 from datetime import datetime
 
 
 def run(day):
     try:
-        if not os.path.exists(solution_file_path):
+        if not os.path.exists(solution_folder_path):
             os.makedirs('./code ', exist_ok=True)
             with open(solution_file_path, 'w'):
                 pass
@@ -17,7 +18,7 @@ def run(day):
             remote_name = 'origin'
             remote_exists = any(remote.name == remote_name for remote in repo.remotes)
             if not remote_exists:
-                remote_url = input('Your remote repository url: ')
+                remote_url = config('REMOTE_REPO_URL')
                 origin = repo.create_remote(remote_name, remote_url)
             else:
                 pass
@@ -48,8 +49,8 @@ def run(day):
 
             from instagram import login_instagram, publish_story
             login_instagram(
-                login='a3.djedai',
-                password='nurdan2005.'
+                login=config('LOGIN'),
+                password=config('PASSWORD')
             )
             publish_story(
                 day=day,

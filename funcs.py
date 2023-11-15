@@ -3,6 +3,7 @@ import git
 import time
 from PIL import Image
 from selenium import webdriver
+from decouple import config
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
