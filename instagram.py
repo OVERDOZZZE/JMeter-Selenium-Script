@@ -1,3 +1,4 @@
+import os.path
 import time
 import keyboard
 from selenium import webdriver
@@ -6,6 +7,8 @@ from selenium.webdriver.chrome.options import Options
 from pynput.keyboard import Key, Controller
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+screens_file_path_absolute = os.path.abspath(f'screens')
 
 mobile_emulation = {
     "deviceMetrics": { "width": 360, "height": 640, "pixelRatio": 3.0 },
@@ -77,16 +80,31 @@ def publish_story(day):
 
     time.sleep(2)
     controller = Controller()
-    controller.type(f"C:\\Users\\User\\PycharmProjects\\Selenim-Jmet\\Selenium-JMeter\\screens\\image{day}.png") 
+    # controller.type(f"C:\\Users\\User\\PycharmProjects\\Selenim-Jmet\\Selenium-JMeter\\screens\\image{day}.png")
+    controller.type(os.path.join(screens_file_path_absolute, f'image{day}.png'))
     controller.press(Key.enter)
     controller.release(Key.enter)
+
+    add_text_button = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, '_aa3j._9_20')))
+    add_text_button.click()
+    time.sleep(2)
+    add_text = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, '_aa77')))
+    add_text.send_keys('@lazyxnasty')
+    touch_men = wait.until(EC.visibility_of_element_located((By.ID, 'touch_mention')))
+    touch_men.click()
+    time.sleep(2)
+    try:
+        submit_text_button = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, '_aa76')))
+        submit_text_button.click()
+    except Exception as e:
+        print(e)
 
     final_button = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, '_aa33')))
     final_button.click()
 
-    wait.until(EC.url_matches('https://www.instagram.com/'))
+    wait.until(EC.url_matches('https://www.instagram.com/123'))
 
 
 if __name__ == '__main__':
     login_instagram('a3.djedai', 'nurdan2005.')
-    publish_story(1)
+    publish_story(9)

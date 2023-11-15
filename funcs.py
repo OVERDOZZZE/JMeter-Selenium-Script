@@ -1,10 +1,16 @@
+import os.path
+
 import git
 import time
+
+from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+screens_file_path_absolute = os.path.abspath(f'screens/')
 
 options = Options()
 options.binary_location = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
@@ -49,10 +55,10 @@ def get_leetcode_solution(day):
     problem_list = wait.until(EC.visibility_of_all_elements_located((
         By.XPATH, '//div[@role="rowgroup"]//a[contains(@class, "hover:text-blue-s") and contains(@href, "/problems/") and contains(@class, "dark:hover:text-dark-blue-s")]'))
     )
-    print(problem_list)
-    print(problem_list[day])
-    for i in problem_list:
-        print(i.text)
+    # print(problem_list)
+    # print(problem_list[day])
+    # for i in problem_list:
+    #     print(i.text)
     # print(problem_list[day].text)
     problem_list[day].click()
 
@@ -75,7 +81,13 @@ def get_leetcode_solution(day):
 def take_screenshot(link, day):
     driver.get(link)
     driver.maximize_window()
+    image_path = os.path.join(screens_file_path_absolute, f'image{day}.png')
     driver.save_screenshot(
-        f'C:\\Users\\User\\PycharmProjects\\Selenim-Jmet\\Selenium-JMeter\\screens\\image{day}.png'
+        image_path
+        # f'C:\\Users\\User\\PycharmProjects\\Selenim-Jmet\\Selenium-JMeter\\screens\\image{day}.png'
     )
+    image = Image.open(image_path)
+    width, height = image.size
+    cropped_image = image.crop((0, 0, width//4, height))
+    cropped_image.save(image_path)
     driver.quit()
